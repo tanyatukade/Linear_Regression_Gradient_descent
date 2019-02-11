@@ -24,15 +24,15 @@ def preProcess(data):
         df = df.dropna() # Removing null values
         df.drop_duplicates()
         df['carName'] = df['carName'].astype('category')
-#         cat_columns = df.select_dtypes(['category']).columns
-#         df[cat_columns] = df[cat_columns].apply(lambda x: x.cat.codes)
-#         scaler = preprocessing.MinMaxScaler()
-#         df[df.columns] = scaler.fit_transform(df[df.columns])
+        cat_columns = df.select_dtypes(['category']).columns
+        df[cat_columns] = df[cat_columns].apply(lambda x: x.cat.codes)
+        scaler = preprocessing.MinMaxScaler()
+        df[df.columns] = scaler.fit_transform(df[df.columns])
         df = df.drop(['carName'],axis=1)
         return df
 
 def split_training_data(df):
-        train=df.sample(frac=0.8,random_state=200)
+        train=df.sample(frac=0.8,random_state=300)
         test=df.drop(train.index)
         return (train, test)
   
@@ -65,7 +65,7 @@ class LinearRegression:
 
 
     # Below is the training function
-    def train(self, epochs = 23, learning_rate = 0.3):
+    def train(self, epochs = 10, learning_rate = 0.1):
         # Perform Gradient Descent
         for i in range(epochs):
             # Make prediction with current weights
@@ -82,8 +82,8 @@ class LinearRegression:
     # predict on test dataset
     def predict(self):
 #         print(test.shape[0])
-        testDF = test
-        testDF.insert(1, "X0", 1)
+        testDF = train
+        # testDF.insert(1, "X0", 1)
         nrows, ncols = testDF.shape[0], testDF.shape[1]
         print(nrows, ncols )
         testX = testDF.iloc[:, 1:ncols].values.reshape(nrows, ncols - 1)
@@ -98,6 +98,6 @@ class LinearRegression:
 if __name__ == "__main__":
     model = LinearRegression(train)
     W, e = model.train()
-    # print(W, e)
+    print("Training Data mse = ", e)
     mse = model.predict()
-    print(mse)
+    print("Testing Data mse = " ,mse)

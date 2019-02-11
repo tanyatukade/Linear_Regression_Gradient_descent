@@ -11,8 +11,8 @@ def preProcess(data):
         df['carName'] = df['carName'].astype('category')
         cat_columns = df.select_dtypes(['category']).columns
         df[cat_columns] = df[cat_columns].apply(lambda x: x.cat.codes) # Categorical to Numerical 
-        # scaler = preprocessing.MinMaxScaler()
-        # df[df.columns] = scaler.fit_transform(df[df.columns])   # Scaling 
+        scaler = preprocessing.MinMaxScaler()
+        df[df.columns] = scaler.fit_transform(df[df.columns])   # Scaling 
         df = df.drop(['carName'],axis=1)
         return df
   
@@ -28,7 +28,7 @@ from sklearn.linear_model import LinearRegression
 
 # X = StandardScaler().fit_transform(X)
 
-X_train,X_test,y_train,y_test=train_test_split(X,y,test_size = 0.2,random_state=330)
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size = 0.2,random_state=50)
 
 model = LinearRegression()
 
