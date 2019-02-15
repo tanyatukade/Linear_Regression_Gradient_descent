@@ -27,8 +27,8 @@ def preProcess_nmr(data):
     cat_columns = df.select_dtypes(['category']).columns
     df[cat_columns] = df[cat_columns].apply(
         lambda x: x.cat.codes)  # categorical to numerical
-    scaler = preprocessing.MinMaxScaler()
-    df[df.columns] = scaler.fit_transform(df[df.columns])
+    # scaler = preprocessing.MinMaxScaler()
+    # df[df.columns] = scaler.fit_transform(df[df.columns])
     df = df.drop(['carName'], axis=1)
     return df
 
